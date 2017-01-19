@@ -6,14 +6,14 @@ These words should be composed of characters a-z in some order. There should be 
 is expected to be 5. These words should be printed one per line in the input file (which for now must be called testinput.txt in the
 working directory). For example,
 
-[File]
+'''
 xuspo
 nxrkb
 micxz
 ysquw
 psvkr
 ujeiq
-[/File]
+'''
 
 You can generate random test data using GenerateData.exe, which is included in the project. It currently generates 10000 entries to a file
 called "testinput.txt" in the working directory.

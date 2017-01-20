@@ -1,5 +1,5 @@
 # MostCommonSet
-First attempt using proper C# documentation.
+First attempt using proper C# documentation. Styling from http://dotnet.jku.at/docview/.
 
 The actual behavior of this code is to print the most common set of characters. Consider a random sequence of characters to be a "word". These words should be composed of characters a-z in some order. There should be the same number of characters per word. Currently, this is expected to be 5. These words should be printed one per line in the input file (which for now must be called testinput.txt in the working directory). For example,
 

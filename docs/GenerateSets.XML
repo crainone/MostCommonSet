@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GenerateSets</name>
+    </assembly>
+    <members>
+        <member name="T:GenerateSets.Program">
+            <summary>
+            Writes a file containing 10000 5-character "words", one on each line.
+            </summary>
+            <remarks>
+            First attempt using proper C# documentation.
+            The file just goes to the working directory.
+            TODO: When integrating this with MostCommonSet, make sure this output and that input are compatible
+            </remarks>
+        </member>
+        <member name="F:GenerateSets.Program.rnd">
+            <summary>
+            RNG to be used by the entire program.
+            </summary>
+        </member>
+        <member name="M:GenerateSets.Program.Main(System.String[])">
+            <summary>
+            Writes 10000 instances of <see cref="M:GenerateSets.Program.GetWord">GetWord</see> to a file.
+            </summary>
+            <remarks>
+            Technically also writes an extra newline to the file, but we don't care. Only in
+            the empty or one-entry case will that be the most common. Adds less overhead than
+            trying to remove it.
+            TODO: Worth it to generate them all into memory and write at once?
+            TODO: Accept N as an argument and generate N instances instead.
+            TODO: Accept M as an argument and generate M-letter words.
+            </remarks>
+            <param name="args">Not used.</param>
+        </member>
+        <member name="M:GenerateSets.Program.GetWord">
+            <summary>
+            Generate a random set of 5 characters (AKA a "word").
+            </summary>
+            <remarks>
+            TODO: Can this be optimized?
+            TODO: Accept N as an argument and generate N-letter words.
+            </remarks>
+            <returns>The 5 characters as a string.</returns>
+        </member>
+        <member name="M:GenerateSets.Program.GetCharacter">
+            <summary>
+            Generate one random letter.
+            </summary>
+            <remarks>
+            Generates one random number between 97 and 122, inclusive, and returns that as a character.
+            </remarks>
+            <returns>One character from a-z (lowercase)</returns>
+        </member>
+    </members>
+</doc>

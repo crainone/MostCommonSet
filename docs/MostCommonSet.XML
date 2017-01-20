@@ -1,4 +1,4 @@
-<?xml:stylesheet href="doc.xsl" type="text/xsl"?>
+<?xml-stylesheet type="text/xsl" href="doc.xsl"?>
 <doc>
     <assembly>
         <name>MostCommonSet</name>

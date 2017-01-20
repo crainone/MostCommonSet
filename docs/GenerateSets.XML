@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml:stylesheet href="doc.xsl" type="text/xsl"?>
 <doc>
     <assembly>
         <name>GenerateSets</name>

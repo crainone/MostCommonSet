@@ -59,44 +59,23 @@ namespace MostCommonSet
             {
                 SortWord(data[j]);
             }
-            //Sort list to get ready to count duplicates
-            String[] newData = SortList(data);
 
-            //List of top strings, expected to be pretty short (maybe one?)
-            List<String> output = new List<String>();
-            output.Add(newData[0]); //At start, top string is only string
-            int topCount = 1; //How many of the top string(s?) there are, tied
-            int currentCount = 1; //How many so far of the string under consideration
-            String currentString = newData[0];
-            for(int i=1; i < 20000; i++)
+            //Don't need to actually sort, just count. Make a heap of the strings and increment when you reach 5 deep.
+            //Keep track of the highest value that turns up
+            int topCount = 0;
+            Heap newData = new Heap();
+            for(int i=0; i < 20000; i++)
             {
-                Debug.Write(topCount + " each: ");
-                foreach(String s in output)
+                int currentCount = newData.put(data[i]);
+                if(currentCount > topCount)
                 {
-                    Debug.Write(s + "\t");
-                }
-                Debug.WriteLine("");
-                if(newData[i].Equals(currentString))
-                {
-                    currentCount++;
-                    if(currentCount == topCount)
-                    {
-                        output.Add(currentString);
-                    }
-                    if(currentCount > topCount)
-                    {
-                        output.Clear();
-                        output.Add(currentString);
-                        topCount = currentCount;
-                    }
-                }
-                else
-                {
-                    currentString = newData[i];
-                    currentCount = 1;
-                }
-
+                    topCount = currentCount;
+                } 
             }
+
+            //Traverse the heap and print out values that are topCount-ed
+            newData.printAll(topCount);
+
             Debug.Write("Never mind."); 
         }
 

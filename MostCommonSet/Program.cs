@@ -36,35 +36,92 @@ namespace MostCommonSet
             char[][] data = new char[20000][];
             for (int j = 0; j < 20000; j++)
             {
+                //Each new word is an array of 5
                 data[j] = new char[5];
                 for (int i=0; i<5; i++)
                 {
-                    data[j][i] = (char) fs.ReadByte();
+                    //Consume any whitespace or invalid characters
+                    int inByte;
+                    do
+                        inByte = fs.ReadByte();
+                    while (inByte < 97 || inByte > 122);
+
+                    //Save valid characters to array
+                    //Note: Line breaks in the input file are mostly cosmetic, this will just read
+                    //the next five characters regardless
+                    char c = (char) inByte;
+                    data[j][i] = c;
                 }
             }
 
+            //Since we don't care about letter order, sort them
             for (int j = 0; j < 20000; j++)
             {
-                for (int i = 0; i < 5; i++)
+                SortWord(data[j]);
+            }
+            //Sort list to get ready to count duplicates
+            String[] newData = SortList(data);
+
+            //List of top strings, expected to be pretty short (maybe one?)
+            List<String> output = new List<String>();
+            output.Add(newData[0]); //At start, top string is only string
+            int topCount = 1; //How many of the top string(s?) there are, tied
+            int currentCount = 1; //How many so far of the string under consideration
+            String currentString = newData[0];
+            for(int i=1; i < 20000; i++)
+            {
+                Debug.Write(topCount + " each: ");
+                foreach(String s in output)
                 {
-                    Debug.Write(data[j][i]);
+                    Debug.Write(s + "\t");
                 }
                 Debug.WriteLine("");
+                if(newData[i].Equals(currentString))
+                {
+                    currentCount++;
+                    if(currentCount == topCount)
+                    {
+                        output.Add(currentString);
+                    }
+                    if(currentCount > topCount)
+                    {
+                        output.Clear();
+                        output.Add(currentString);
+                        topCount = currentCount;
+                    }
+                }
+                else
+                {
+                    currentString = newData[i];
+                    currentCount = 1;
+                }
+
             }
-            Debug.Write("Never mind.");
+            Debug.Write("Never mind."); 
         }
 
         /// <summary>
-        /// Given the entire chunk of data, rearranges the row specified by rowNumber to alphabetic order. 
+        /// Sort the word in alphabetical order
         /// </summary>
         /// <remarks>
         /// TODO: Is this pass-by-reference?
         /// </remarks>
-        /// <param name="data">All input data, 20000 rows of 5 characters.</param>
-        /// <param name="rowNum">Which row to sort this time.</param>
-        private static void SortWord(char[,] data, int rowNum)
+        /// <param name="data">One rows of 5 characters from the input data.</param>
+        private static void SortWord(char[] data)
         {
-            
+            Array.Sort(data);
+        }
+
+        //This is the bottleneck remove ASAP
+        private static String[] SortList(char[][] data)
+        {
+            String[] newData = new String[20000];
+            for(int i=0; i< 20000; i++)
+            {
+                newData[i] = new String(data[i]);
+            }
+            Array.Sort(newData);
+            return newData;
         }
     }
 }

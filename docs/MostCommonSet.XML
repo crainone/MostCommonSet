@@ -24,15 +24,14 @@
             TODO: Optimize
             </remarks>
         </member>
-        <member name="M:MostCommonSet.Program.SortWord(System.Char[0:,0:],System.Int32)">
+        <member name="M:MostCommonSet.Program.SortWord(System.Char[])">
             <summary>
-            Given the entire chunk of data, rearranges the row specified by rowNumber to alphabetic order. 
+            Sort the word in alphabetical order
             </summary>
             <remarks>
             TODO: Is this pass-by-reference?
             </remarks>
-            <param name="data">All input data, 20000 rows of 5 characters.</param>
-            <param name="rowNum">Which row to sort this time.</param>
+            <param name="data">One rows of 5 characters from the input data.</param>
         </member>
     </members>
 </doc>

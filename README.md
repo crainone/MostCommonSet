@@ -12,8 +12,8 @@ psvkr
 ujeiq
 ```
 
-You can generate random test data using GenerateData.exe, which is included in the project. It currently generates 10000 entries to a file called "testinput.txt" in the working directory.
-
 If there are multiple sets of characters that are tied, it shows all of them. If there is no data, the most common set of characters is "". If there is one "word", that is automatically the most common word. The order of the characters does not matter.
 
-Styling for the documentation pages was adapted from http://dotnet.jku.at/docview/.
+You can generate random test data using GenerateData.exe, which is included in the project. It currently generates 10000 entries to a file called "testinput.txt" in the working directory.
+
+In order to display the XML documentation, I'd prefer to use XSLT, but it looks like that's not supported by Chrome. There is an additional project DocsToHTML to convert XML to HTML so the documentation can be displayed.

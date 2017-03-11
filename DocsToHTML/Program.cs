@@ -64,25 +64,34 @@ namespace DocsToHTML
         {
             foreach (String doc in docsToConvert)
             {
-                //Will contain new html
+                //Will contain new html while debugging
+                //TODO: Remove this
                 string text = "";
-
-                //Read document sequentially (SAX-style)
-                FileStream fs = new FileStream(doc, FileMode.Open, FileAccess.Read);
-                XmlReader xReader = XmlReader.Create(fs);
-                while (xReader.Read())
+ 
+                //Put together file writer and reader
+                //TODO: Is this even the best way to do this?
+                using (FileStream fs = new FileStream(doc, FileMode.Open, FileAccess.Read))
+                using (FileStream os = new FileStream(xmlToHTMLExtension(doc), FileMode.CreateNew, FileAccess.Write))
+                using (XmlWriter hWriter = XmlWriter.Create(os))
+                using (XmlReader xReader = XmlReader.Create(fs))
                 {
-                    switch (xReader.NodeType)
+
+                    //Read document sequentially (SAX-style)
+                    //Basic operation is read, transform, write (but each is recursive)
+                    while (xReader.Read())
                     {
-                        case XmlNodeType.Element:
-                            text += "Element:" + xReader.Value;
-                            break;
-                        case XmlNodeType.Text:
-                            text += "Text:" + xReader.Value;
-                            break;
-                        case XmlNodeType.EndElement:
-                            text += "/Element:" + xReader.Value;
-                            break;
+                        switch (xReader.NodeType)
+                        {
+                            case XmlNodeType.Element:
+                                text += "Element:" + xReader.Value;
+                                break;
+                            case XmlNodeType.Text:
+                                text += "Text:" + xReader.Value;
+                                break;
+                            case XmlNodeType.EndElement:
+                                text += "/Element:" + xReader.Value;
+                                break;
+                        }
                     }
                 }
                 System.IO.File.WriteAllText(xmlToHTMLExtension(doc), text);

@@ -8,6 +8,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MostCommonSet", "MostCommon
 		{30AFC42F-DAA3-43FC-8A34-ED33EE5477CA} = {30AFC42F-DAA3-43FC-8A34-ED33EE5477CA}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocsToHTML", "DocsToHTML\DocsToHTML.csproj", "{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B6ED3700-00E7-4214-8E65-ED555E0839BC} = {B6ED3700-00E7-4214-8E65-ED555E0839BC}
+		{30AFC42F-DAA3-43FC-8A34-ED33EE5477CA} = {30AFC42F-DAA3-43FC-8A34-ED33EE5477CA}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -32,6 +38,13 @@ Global
 		{B6ED3700-00E7-4214-8E65-ED555E0839BC}.Release|x64.Build.0 = Release|x64
 		{B6ED3700-00E7-4214-8E65-ED555E0839BC}.Release|x86.ActiveCfg = Release|x86
 		{B6ED3700-00E7-4214-8E65-ED555E0839BC}.Release|x86.Build.0 = Release|x86
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Debug|x64.ActiveCfg = Debug|x64
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Debug|x64.Build.0 = Debug|x64
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Debug|x86.ActiveCfg = Debug|x86
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Debug|x86.Build.0 = Debug|x86
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Release|x64.ActiveCfg = Release|x64
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Release|x86.ActiveCfg = Release|x86
+		{A6D33D56-8109-4A40-8D8F-F64D438F2C5D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

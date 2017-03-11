@@ -4,6 +4,144 @@
         <name>MostCommonSet</name>
     </assembly>
     <members>
+        <member name="T:MostCommonSet.AnalyzedWord">
+            <summary>
+            Represents one word.
+            </summary>
+            <remarks>
+            <para>
+            Can take advantage of one thing, here: the number of letters per word is variable,
+            and the number of words in the list is variable, but the number of letters is NOT.
+            Represent each word with an array[26] of ints (nb should be shorts, not expected to
+            have more than ~100 of any given letter). Expensive in memory but faster to process.
+            </para>
+            <para>
+            TODO: This could be flexible, storing short words as strings and long words as
+            letter-count arrays.
+            </para>
+            </remarks>
+        </member>
+        <member name="F:MostCommonSet.AnalyzedWord.letterCounts">
+            <summary>
+            letterCounts[0] equals how many "a"s appear in this word,
+            letterCounts[1] equals how many "b"s appear in this word,
+            ...
+            letterCounts[25] equals how many "z"s appear in this word.
+            Note that letters are not included in this word until they are explicitly added by
+            .add(letter).
+            </summary>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWord.add(System.Int32)">
+            <summary>
+            Add a letter to this word.
+            </summary>
+            <remarks>
+            <para>
+            Given the ASCII value of a letter, increment the value at the appropriate index. If for
+            some reason the letter can't be represented as a number 0-25, it gets skipped.
+            </para>
+            </remarks>
+            <param name="letter">
+            An ASCII value, to be converted to A1Z26 (well, A0Z25) and added to the letterCounts.
+            </param>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWord.ASCIIToIndex(System.Int32)">
+            <summary>
+            Convert ASCII value to index of array.
+            </summary>
+            <remarks>
+            <para>
+            Easy to do - subtract 97 from the value.
+            </para>
+            <para>
+            TODO: allow uppercase letters.
+            </para>
+            </remarks>
+            <param name="letter">
+            ASCII value from 97 to 122 (a-z)
+            </param>
+            <returns>
+            0 for a through 25 for z, but may return outside that range when given other characters.
+            </returns>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWord.IndexToASCII(System.Int32)">
+            <summary>
+            Convert index of array to ASCII value.
+            </summary>
+            <remarks>
+            <para>
+            Should always be inverse of ASCIIToIndex.
+            </para>
+            <para>
+            TODO: allow uppercase letters.
+            </para>
+            </remarks>
+            <param name="index">
+            Array index from 0 to 25
+            </param>
+            <returns>
+            a for 0 through z for 25, but may return another character when given some outside index.
+            </returns>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWord.Equals(MostCommonSet.AnalyzedWord)">
+            <summary>
+            Equal if all elements in the array letterCounts are equal.
+            </summary>
+            <param name="other">
+            The other AnalyzedWord to check against this one.
+            </param>
+            <returns>
+            True if the same number of letters appear in both words.
+            </returns>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWord.GetHashCode">
+            <summary>
+            Hash based on letterCounts.
+            </summary>
+            <returns>
+            hash value
+            </returns>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWord.ToString">
+            <summary>
+            Converts letter counts back to normal string.
+            </summary>
+            <remarks>
+            <para>
+            Letter order isn't preserved, but the string that represents this word and its
+            anagrams is recreated, with letters in alphabetical order.
+            </para>
+            <para>
+            For example, "diwge"/"gweid" are returned as "degiw".
+            </para>
+            </remarks>
+            <returns>
+            Word string.
+            </returns>
+        </member>
+        <member name="T:MostCommonSet.AnalyzedWordComparer">
+            <summary>
+            Wrapper for comparison functions in AnalyzedWord.
+            </summary>
+            <see cref="T:MostCommonSet.AnalyzedWord"/>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWordComparer.Equals(MostCommonSet.AnalyzedWord,MostCommonSet.AnalyzedWord)">
+            <summary>
+            Return true if the two words are the same, or anagrams.
+            </summary>
+            <param name="x">Word 1</param>
+            <param name="y">Word 2</param>
+            <returns>x.Equals(y)</returns>
+            <see cref="M:MostCommonSet.AnalyzedWord.Equals(MostCommonSet.AnalyzedWord)"/>
+        </member>
+        <member name="M:MostCommonSet.AnalyzedWordComparer.GetHashCode(MostCommonSet.AnalyzedWord)">
+            <summary>
+            Return hashcode of the given word.
+            </summary>
+            <param name="obj">Word</param>
+            <returns>obj.GetHashCode()</returns>
+            <see cref="M:MostCommonSet.AnalyzedWord.GetHashCode"/> 
+        </member>
         <member name="T:MostCommonSet.Program">
             <summary>
             If you can see this, this project succeeded!
@@ -18,20 +156,34 @@
             this project is a success. Still, this should work as specified and be as idiot-proof as
             possible.
             </para>
-            TODO: Can I use a TODO tag?
+            <para>
+            Sample input:
+            <file>
+            abdnb
+            xnuch
+            pzhen
+            zphen
+            </file>
+            </para>
+            <para>
+            Representation in memory:
+            <table>
+            <tr><th>a</th><th>b</th><th>c</th><th>...</th><th>z</th></tr>
+            <tr><td>1</td><td>2</td><td>0</td><td></td><td>0</td></tr>
+            <tr><td>0</td><td>0</td><td>1</td><td></td><td>0</td></tr>
+            <tr><td>0</td><td>0</td><td>0</td><td></td><td>1</td></tr>
+            <tr><td>0</td><td>0</td><td>0</td><td></td><td>1</td></tr>
+            <tr></tr>
+            </table>
+            </para>
+            <para>
+            Result:
+            ehnpz
+            (since pzhen and zphen count as the same word, and appear collectively twice)
+            </para>
             TODO: Error handling
             TODO: Unit tests
-            TODO: Optimize
             </remarks>
-        </member>
-        <member name="M:MostCommonSet.Program.SortWord(System.Char[])">
-            <summary>
-            Sort the word in alphabetical order
-            </summary>
-            <remarks>
-            TODO: Is this pass-by-reference?
-            </remarks>
-            <param name="data">One rows of 5 characters from the input data.</param>
         </member>
     </members>
 </doc>

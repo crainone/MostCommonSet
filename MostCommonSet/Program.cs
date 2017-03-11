@@ -41,51 +41,53 @@ namespace MostCommonSet
     /// </table>
     /// </para>
     /// <para>
-    /// Then:
-    /// 0 -
-    ///   0 -
-    ///     0 -
-    ///       ...
-    ///         1 = 2 (from 000...1: "pzhen" and "zphen")
-    ///     1 -
-    ///       ...
-    ///         0 = 1 (from 001...0: "xnuch")
-    /// 1 -
-    ///   2 -
-    ///     0 -
-    ///       ...
-    ///         0 = 1 (from 120...0: "abdnb")
-    /// </para>
-    /// <para>
     /// Result:
     /// ehnpz
     /// (since pzhen and zphen count as the same word, and appear collectively twice)
     /// </para>
     /// TODO: Error handling
     /// TODO: Unit tests
-    /// TODO: Optimize
     /// </remarks>
     class Program
     {
         static void Main(string[] args)
         {
-            //Attempt 2:
-            //Can take advantage of one thing, here: the number of letters per word is variable,
-            //and the number of words in the list is variable, but the number of letters is NOT.
-            //Represent each word with an array[26] of ints (nb should be shorts, not expected to
-            //have more than ~100 of any given letter). Expensive in memory but faster to process.
             FileStream fs = new FileStream("testdata.txt", FileMode.Open, FileAccess.Read);
 
             //Load everything into memory
-            int[][] data = new int[20000][];
+            AnalyzedWord[] data = new AnalyzedWord[20000];
+            ReadIntoMemory(fs, data);
+
+            //Now look for dupes now that anagrams are handled
+            Dictionary<AnalyzedWord, int> countedAnagrams = data
+                .GroupBy(x => x, new AnalyzedWordComparer())
+                .ToDictionary(x => x.Key, x => x.Count());
+
+            //Find all the max values and print them
+            int commonCount = countedAnagrams.Max(x => x.Value);
+            Debug.WriteLine("{0} instances of most common words", commonCount);
+
+            String[] mostCommon = countedAnagrams
+                .Where(x => x.Value == commonCount)
+                .Select(x => x.Key.ToString()).ToArray();
+
+            for (int i = 0; i < mostCommon.Length; i++)
+            {
+                Debug.WriteLine(mostCommon[i]);
+            }
+            Debug.WriteLine("Done.");
+        }
+
+        private static void ReadIntoMemory(FileStream fs, AnalyzedWord[] data)
+        {
             for (int j = 0; j < 20000; j++)
             {
-                //Each new word is an array of 26
-                data[j] = new int[26];
+                //Save aggregate of each new word
+                data[j] = new AnalyzedWord();
 
                 //Note: Line breaks in the input file are mostly cosmetic, this will just read
                 //the next five characters regardless
-                for (int i=0; i<5; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     //Consume any whitespace or invalid characters
                     int inByte;
@@ -94,31 +96,9 @@ namespace MostCommonSet
                     while (inByte < 97 || inByte > 122);
 
                     //Save valid characters to array by incrementing at index a=0, b=1 ... z=25
-                    char c = (char) inByte;
-                    data[j][inByte-97]++;
+                    data[j].add(inByte);
                 }
             }
-            
-            //Sort the result
-            
-            //Now look for dupes now that anagrams are handled
-            
-            //Traverse the heap and print out values that are topCount-ed
-            data.printAll(topCount);
-
-            Debug.Write("Never mind."); 
-        }
-
-        //This is the bottleneck remove ASAP
-        private static String[] SortList(char[][] data)
-        {
-            String[] newData = new String[20000];
-            for(int i=0; i< 20000; i++)
-            {
-                newData[i] = new String(data[i]);
-            }
-            Array.Sort(newData);
-            return newData;
         }
     }
 }
